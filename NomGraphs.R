@@ -49,6 +49,8 @@ house111 <- subset(house, CongressNumber==111)
 house111$Party <- ifelse(house111$PartyCode==100, "Dem", "Rep")
 house111$Party <- as.factor(house111$Party)
 
+jpeg(file = "house111.jpeg")
+
 ggplot(house111, aes(x = DimOneCoord, y = DimTwoCoord, col = Party)) + 
         geom_point() +
         scale_color_manual(values=c("blue", "red")) +
@@ -60,6 +62,7 @@ ggplot(house111, aes(x = DimOneCoord, y = DimTwoCoord, col = Party)) +
               panel.background = element_rect(fill = "grey85")) +
         scale_x_continuous(limits = c(-1, 1))
 
+dev.off()
 
 ### Nominate Scores for the 99th House by Party
 
@@ -67,6 +70,8 @@ house99 <- subset(house, CongressNumber==99)
 
 house99$Party <- ifelse(house99$PartyCode==100, "Dem", "Rep")
 house99$Party <- as.factor(house99$Party)
+
+jpeg(file = "house99.jpeg")
 
 ggplot(house99, aes(x = DimOneCoord, y = DimTwoCoord, col = Party)) + 
         geom_point() +
@@ -79,12 +84,16 @@ ggplot(house99, aes(x = DimOneCoord, y = DimTwoCoord, col = Party)) +
               panel.background = element_rect(fill = "grey85")) +
         scale_x_continuous(limits = c(-1, 1))
 
+dev.off()
+
 
 ### Nominate Scores for the 89th House by Party
 
 house89 <- subset(house, CongressNumber==89)
 house89$Party <- ifelse(house89$PartyCode==100, "Dem", "Rep")
 house89$Party <- as.factor(house89$Party)
+
+jpeg(file = "house89.jpeg")
 
 ggplot(house89, aes(x = DimOneCoord, y = DimTwoCoord, col = Party)) + 
         geom_point() +
@@ -97,6 +106,8 @@ ggplot(house89, aes(x = DimOneCoord, y = DimTwoCoord, col = Party)) +
               panel.background = element_rect(fill = "grey85")) +
         scale_x_continuous(limits = c(-1, 1))
 
+dev.off()
+
 
 ### Combined graph with 89th, 99th and 111th congresses
 
@@ -104,6 +115,8 @@ houseComb <- rbind(house89, house99, house111)
 houseComb$CongressNumber <- as.character(houseComb$CongressNumber)
 houseComb$CongressNumber <- factor(houseComb$CongressNumber,
                                    levels = c("89", "99", "111"))
+
+jpeg(file = "houseComb.jpeg")
 
 ggplot(houseComb, aes(x = DimOneCoord, y = DimTwoCoord, col = Party)) + 
         geom_point() +
@@ -116,6 +129,8 @@ ggplot(houseComb, aes(x = DimOneCoord, y = DimTwoCoord, col = Party)) +
               panel.background = element_rect(fill = "grey85")) +
         facet_grid(CongressNumber ~ .) +
         scale_x_continuous(limits = c(-1, 1))
+
+dev.off()
 
 
 ### Download Roll-Call data for the 111th house 
@@ -139,6 +154,8 @@ table(merged111$V885)
 merged111$V885 <- ifelse(merged111$V885==1, "Y", "N")
 merged111 <- rename(merged111, Vote = V885)
 
+jpeg(file = "houseObamacare.jpeg")
+
 ggplot(merged111, aes(x = DimOneCoord, y = DimTwoCoord, col = Party, label = Vote)) + 
         geom_text(size = 6) +
         scale_color_manual(values=c("blue", "red")) +
@@ -151,6 +168,8 @@ ggplot(merged111, aes(x = DimOneCoord, y = DimTwoCoord, col = Party, label = Vot
               legend.position = "none",
               panel.background = element_rect(fill = "grey85")) +
         scale_x_continuous(limits = c(-1, 1))
+
+dev.off()
 
 
 ## Extract the 111th Senate from the senate DF
@@ -192,6 +211,8 @@ mergedS111 <- rename(mergedS111, Vote = V396)
 mergedS111 <- arrange(mergedS111, DimOneCoord)
 FP <- mergedS111$DimOneCoord[60] #Find the filibuster pivot (60th most left Senator)
 
+jpeg(file = "senateObamacare.jpeg")
+
 ggplot(mergedS111, aes(x = DimOneCoord, y = DimTwoCoord, col = Party, label = Vote)) + 
         geom_text(size = 6) +
         scale_color_manual(values=c("blue", "red", "green")) +
@@ -207,3 +228,4 @@ ggplot(mergedS111, aes(x = DimOneCoord, y = DimTwoCoord, col = Party, label = Vo
               panel.background = element_rect(fill = "grey85")) +
         scale_x_continuous(limits = c(-1, 1))
 
+dev.off()
